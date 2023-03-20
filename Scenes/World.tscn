@@ -421,6 +421,8 @@ shadow_enabled = true
 
 [node name="Structures" type="Node" parent="."]
 
+[node name="Objects" type="Node" parent="."]
+
 [node name="ResourceTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true

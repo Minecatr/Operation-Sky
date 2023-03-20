@@ -332,9 +332,6 @@ use_collision = true
 size = Vector3(8, 1, 8)
 material = ExtResource("5")
 
-[node name="Drill" parent="." instance=ExtResource("2")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 1.8)
-
 [node name="The Source" type="Area3D" parent="." groups=["hurtbox", "source"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1")
@@ -386,9 +383,6 @@ root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_5cd0o")
 }
-
-[node name="Dropper" parent="." instance=ExtResource("3")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 2.9)
 
 [node name="Spinner" type="Node3D" parent="."]
 script = ExtResource("6")
@@ -489,6 +483,16 @@ one_shot = true
 
 [node name="Timer" type="Timer" parent="Volcano"]
 autostart = true
+
+[node name="Objects" type="Node" parent="."]
+
+[node name="Structures" type="Node" parent="."]
+
+[node name="Dropper" parent="Structures" instance=ExtResource("3")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 2.9)
+
+[node name="Drill" parent="Structures" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 1.8)
 
 [connection signal="text_submitted" from="CanvasLayer/Control/VBoxContainer/Username" to="." method="_on_Username_text_entered"]
 [connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/ServerMenu/Host" to="." method="_on_Host_pressed"]

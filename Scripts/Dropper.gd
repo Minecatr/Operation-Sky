@@ -16,7 +16,7 @@ func _on_Area_area_entered(area):
 		if candrop:
 			item.position = $"../Drop".global_position
 			item.rotation = $"../Drop".global_rotation
-			get_parent().get_parent().add_child(item)
+			get_parent().get_parent().get_parent().get_node("Objects").add_child(item)
 
 func _on_Timer_animation_finished(_anim_name):
 	$"../Timer".play("Update")

@@ -130,17 +130,16 @@ func _unhandled_input(_event):
 			ray_query.collide_with_bodies = false
 			ray_query.collide_with_areas = true
 			var raycast_result = space.intersect_ray(ray_query)
-			if raycast_result and raycast_result["position"].distance_to(position) < 5:
-				if equippeditem == "":
-					if raycast_result["collider"].is_in_group("source"):
-						raycast_result["collider"].take_damage(1,self)
-					if raycast_result["collider"].is_in_group("hurtbox_structure") and raycast_result["collider"].get_parent().name == "Furnace":
-						$CanvasLayer/UI/MiddleTabs.visible = true
-					if raycast_result["collider"].is_in_group("storage"):
-						collect_stat(raycast_result["collider"].get_parent().get_node("Storage").stats)
-				elif equippeditem == "Hammer":
-					if raycast_result["collider"].is_in_group("hurtbox_structure") and !hammer_selected_structure:
-						hammer_select(raycast_result["collider"])
+			if equippeditem == "" and raycast_result and raycast_result["position"].distance_to(position) < 5:
+				if raycast_result["collider"].is_in_group("source"):
+					raycast_result["collider"].take_damage(1,self)
+				if raycast_result["collider"].is_in_group("hurtbox_structure") and raycast_result["collider"].get_parent().name == "Furnace":
+					$CanvasLayer/UI/MiddleTabs.visible = true
+				if raycast_result["collider"].is_in_group("storage"):
+					collect_stat(raycast_result["collider"].get_parent().get_node("Storage").stats)
+			elif equippeditem == "Hammer" and raycast_result:
+				if raycast_result["collider"].is_in_group("hurtbox_structure") and !hammer_selected_structure:
+					hammer_select(raycast_result["collider"])
 	if Input.is_action_just_released("swing"):
 		pass
 func get_input():
@@ -180,7 +179,7 @@ func Drop(item):
 		itemstats[item] = 1
 		itemtemplate.position = position + Vector3(0,0.5,1.5).rotated(Vector3.UP, rotation.y)
 		itemtemplate.apply_impulse(Vector3.ZERO, Vector3(0,2,2).rotated(Vector3.UP, rotation.y))
-		get_parent().add_child(itemtemplate)
+		get_parent().get_node("Objects").add_child(itemtemplate)
 		updstats()
 func animate(type,player): # all animations
 	var new_anim = anim
