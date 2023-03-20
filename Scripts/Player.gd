@@ -133,13 +133,14 @@ func _unhandled_input(_event):
 			ray_query.collide_with_bodies = false
 			ray_query.collide_with_areas = true
 			var raycast_result = space.intersect_ray(ray_query)
+			print(raycast_result)
 			if raycast_result and raycast_result["position"].distance_to(position) < 5:
 				if raycast_result["collider"].is_in_group("source"):
 					raycast_result["collider"].take_damage(1,self)
 				if raycast_result["collider"].is_in_group("hurtbox_structure") and raycast_result["collider"].get_parent().name == "Furnace":
 					$CanvasLayer/UI/MiddleTabs.visible = true
 				if raycast_result["collider"].is_in_group("storage"):
-					collect_stat(raycast_result["collider"].is_in_group("storage").get_parent().get_node("Storage").stats)
+					collect_stat(raycast_result["collider"].get_parent().get_node("Storage").stats)
 	if Input.is_action_just_released("swing"):
 		pass
 func get_input():

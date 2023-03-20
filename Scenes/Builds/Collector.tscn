@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" path="res://Assets/Resources/plastic-brown.tres" id="1"]
 [ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://Scenes/HealthBar3D.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bhy26nlqilrfu" path="res://Scenes/HealthBar3D.tscn" id="3"]
 [ext_resource type="Script" path="res://Scripts/Structure.gd" id="4"]
 [ext_resource type="Material" path="res://Assets/Resources/plastic-gray.tres" id="5"]
 [ext_resource type="Script" path="res://Scripts/Collector.gd" id="6"]
@@ -13,7 +13,7 @@
 size = Vector3(0.375, 0.375, 2)
 
 [sub_resource type="BoxShape3D" id="1"]
-size = Vector3(0.25, 0.25, 0.5)
+size = Vector3(0.5, 0.5, 1)
 
 [sub_resource type="ViewportTexture" id="3"]
 viewport_path = NodePath("SubViewport")
