@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://r5kk0clvh87d"]
+
+[ext_resource type="Theme" uid="uid://c6j8wp5yug8hx" path="res://Assets/Resources/main_theme.tres" id="2"]
+[ext_resource type="Texture2D" uid="uid://donwcb6glik0s" path="res://Assets/Textures/ui.svg" id="2_640ni"]
+
+[node name="Template" type="NinePatchRect"]
+custom_minimum_size = Vector2(32, 32)
+offset_right = 0.255999
+offset_bottom = 0.199999
+theme = ExtResource("2")
+texture = ExtResource("2_640ni")
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://ye15n8wif0c6"]
+
+[ext_resource type="Theme" uid="uid://c6j8wp5yug8hx" path="res://Assets/Resources/main_theme.tres" id="2"]
+[ext_resource type="Texture2D" uid="uid://donwcb6glik0s" path="res://Assets/Textures/ui.svg" id="3_x7g3i"]
+[ext_resource type="Script" path="res://Scripts/Recipe.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://blhw30l8563bv" path="res://Assets/Textures/output.svg" id="4_udrat"]
+
+[node name="TemplateRecipe" type="Button"]
+custom_minimum_size = Vector2(0, 32)
+anchors_preset = -1
+anchor_right = 0.1245
+anchor_bottom = 0.053
+offset_right = 0.511997
+offset_bottom = 0.199999
+size_flags_horizontal = 3
+script = ExtResource("4")
+
+[node name="Input" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+anchor_bottom = 1.0
+offset_right = 32.0
+theme = ExtResource("2")
+texture = ExtResource("3_x7g3i")
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Label" type="Label" parent="Input"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_right = 16.0
+texture = ExtResource("4_udrat")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Output" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+theme = ExtResource("2")
+texture = ExtResource("3_x7g3i")
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Label" type="Label" parent="Output"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1

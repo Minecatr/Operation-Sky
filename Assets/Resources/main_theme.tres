@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c6j8wp5yug8hx"]
+
+[ext_resource type="FontFile" uid="uid://c4nql6g7b8t0y" path="res://Assets/Font/FuturaPTCondBoldOblique.otf" id="1"]
+
+[resource]
+default_font = ExtResource("1")
+default_font_size = 16
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 8
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 8
+LineEdit/colors/font_outline_color = Color(0, 0, 0, 1)
+LineEdit/constants/outline_size = 8
+TabContainer/colors/font_outline_color = Color(0, 0, 0, 1)
+TabContainer/constants/outline_size = 8

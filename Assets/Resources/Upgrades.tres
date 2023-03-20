@@ -1,0 +1,42 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Upgrades.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+cost = {
+"Damage Multi": 5,
+"Material Spawnrate": 2,
+"Max Bush": 25,
+"Max Rock": 25,
+"Max Tree": 25,
+"Multi": 3,
+"Multi2": 1000,
+"PSize": 1,
+"Rebirth": 1000000,
+"Speed": 1
+}
+type = {
+"Damage Multi": "Gold",
+"Material Spawnrate": "Points",
+"Max Bush": "Points",
+"Max Rock": "Points",
+"Max Tree": "Points",
+"Multi": "Points",
+"Multi2": "Points",
+"PSize": "Points",
+"Rebirth": "Points",
+"Speed": "Points"
+}
+value = {
+"Damage Multi": 0,
+"Material Spawnrate": 0,
+"Max Bush": 0,
+"Max Rock": 0,
+"Max Tree": 0,
+"Multi": 0,
+"Multi2": 0,
+"PSize": 0,
+"Rebirth": 0,
+"Speed": 0
+}

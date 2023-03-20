@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/FurnaceRecipes.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+input = {
+"Coal": "Wood",
+"Glass": "Sand"
+}
+inputamount = {
+"Coal": 10,
+"Glass": 2
+}
+coalamount = {
+"Coal": 0,
+"Glass": 1
+}

@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://cycsgt7ssgc1i"]
+
+[ext_resource type="Theme" uid="uid://c6j8wp5yug8hx" path="res://Assets/Resources/main_theme.tres" id="2"]
+[ext_resource type="Texture2D" uid="uid://donwcb6glik0s" path="res://Assets/Textures/ui.svg" id="2_fa4pw"]
+[ext_resource type="Script" path="res://Scripts/TemplateStat.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://betwqdpjw58r2" path="res://Assets/Textures/drop.svg" id="4_dnaho"]
+[ext_resource type="Texture2D" uid="uid://cvyxq0vfghql5" path="res://Assets/Textures/drop2.svg" id="5_wc4rk"]
+
+[node name="Template" type="NinePatchRect"]
+custom_minimum_size = Vector2(184, 32)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 0.049
+offset_right = -0.320007
+offset_bottom = 0.247999
+theme = ExtResource("2")
+texture = ExtResource("2_fa4pw")
+region_rect = Rect2(0, 0, 32, 32)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+script = ExtResource("3")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+theme = ExtResource("2")
+text = "Template: 0"
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 152.0
+offset_right = -1.52588e-05
+offset_bottom = 0.456001
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("4_dnaho")
+texture_pressed = ExtResource("5_wc4rk")
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]

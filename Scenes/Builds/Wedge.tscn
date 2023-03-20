@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Resources/plastic-brown.tres" type="Material" id=1]
+[ext_resource path="res://Scenes/Stats.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/HealthBar3D.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/Structure.gd" type="Script" id=4]
+
+[node name="Wedge" type="CSGCombiner3D"]
+use_collision = true
+script = ExtResource( 4 )
+
+[node name="Stats" parent="." instance=ExtResource( 2 )]
+health = 1
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 5
+}
+
+[node name="HealthBar3D" parent="." instance=ExtResource( 3 )]
+transform = Transform3D( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -0.3, 0.525 )
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Hitbox"]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.75, 0.125 )
+polygon = PackedVector2Array( 0, 0, 1, 1, 1, 0 )
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.5, -0.75, 0.125 )
+polygon = PackedVector2Array( 0, 0, 1, 1, 1, 0 )
+material = ExtResource( 1 )

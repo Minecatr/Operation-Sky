@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/HealthBar3D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Resource.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Stats.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SphereShape3D" id=1]
+radius = 0.75
+
+[sub_resource type="StandardMaterial3D" id=3]
+albedo_color = Color( 0.509804, 0.509804, 0.509804, 1 )
+
+[node name="Rock" type="Area3D" groups=["hurtbox"]]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape3D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Stats" parent="." instance=ExtResource( 3 )]
+health = 5
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 1,
+"Wood": 0
+}
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+use_collision = true
+radius = 0.75
+radial_segments = 10
+rings = 5
+smooth_faces = false
+material = SubResource( 3 )
+
+[node name="HealthBar3D" parent="." instance=ExtResource( 1 )]
+transform = Transform3D( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1.25, 0 )

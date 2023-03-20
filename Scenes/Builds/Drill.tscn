@@ -1,0 +1,147 @@
+[gd_scene load_steps=14 format=3 uid="uid://dlchvyjjqj5ud"]
+
+[ext_resource type="Material" path="res://Assets/Resources/plastic-darkgray.tres" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bhy26nlqilrfu" path="res://Scenes/HealthBar3D.tscn" id="3"]
+[ext_resource type="Script" path="res://Scripts/Structure.gd" id="4"]
+[ext_resource type="Material" path="res://Assets/Resources/plastic-gray.tres" id="5"]
+[ext_resource type="Script" path="res://Scripts/Storage.gd" id="6"]
+[ext_resource type="Script" path="res://Scripts/Drill.gd" id="7"]
+[ext_resource type="Script" path="res://Scripts/Stats.gd" id="8"]
+
+[sub_resource type="BoxShape3D" id="2"]
+size = Vector3(0.25, 0.25, 1)
+
+[sub_resource type="Animation" id="4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area3D/CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="5"]
+resource_name = "Rotate"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 90)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area3D/CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pejuj"]
+_data = {
+"RESET": SubResource("4"),
+"Rotate": SubResource("5")
+}
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(0.5, 0.5, 1)
+
+[node name="Drill" type="CSGCombiner3D"]
+calculate_tangents = false
+script = ExtResource("4")
+storage = true
+
+[node name="Storage" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.625)
+size = Vector3(0.5, 0.5, 1)
+material = ExtResource("1")
+script = ExtResource("6")
+
+[node name="Has" type="Node" parent="Storage"]
+script = ExtResource("8")
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 0
+}
+
+[node name="Drill" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1.125)
+size = Vector3(0.25, 0.25, 1)
+material = ExtResource("5")
+script = ExtResource("7")
+
+[node name="Area3D" type="Area3D" parent="Drill"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Drill/Area3D"]
+shape = SubResource("2")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Drill"]
+libraries = {
+"": SubResource("AnimationLibrary_pejuj")
+}
+
+[node name="Stats" parent="." instance=ExtResource("2")]
+health = 3
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 20,
+"Wood": 10
+}
+
+[node name="HealthBar3D" parent="." instance=ExtResource("3")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -0.5, 0.625)
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.625)
+shape = SubResource("1")
+
+[connection signal="area_entered" from="Drill/Area3D" to="Drill" method="_on_Area_area_entered"]
+[connection signal="animation_finished" from="Drill/AnimationPlayer" to="Drill" method="_on_AnimationPlayer_animation_finished"]

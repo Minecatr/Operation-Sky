@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bu1f16lwac3up"]
+
+[ext_resource type="Material" path="res://Assets/Resources/plastic-brown.tres" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bhy26nlqilrfu" path="res://Scenes/HealthBar3D.tscn" id="3"]
+[ext_resource type="Script" path="res://Scripts/Structure.gd" id="4"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(0.5, 0.25, 1.5)
+
+[node name="Bridge" type="CSGCombiner3D"]
+use_collision = true
+script = ExtResource("4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.875, 0.875)
+size = Vector3(0.5, 0.25, 1.5)
+material = ExtResource("1")
+
+[node name="Stats" parent="." instance=ExtResource("2")]
+health = 1
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 1
+}
+
+[node name="HealthBar3D" parent="." instance=ExtResource("3")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -0.875, 0.875)
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.875, 0.875)
+shape = SubResource("1")

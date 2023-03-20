@@ -1,0 +1,8 @@
+[gd_resource type="FontFile" load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Font/FuturaPTCondBold.otf" type="FontFile" id=1]
+
+[resource]
+size = 24
+use_filter = true
+font_data = ExtResource( 1 )

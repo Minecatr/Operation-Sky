@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhy26nlqilrfu"]
+
+[ext_resource type="Texture2D" uid="uid://donwcb6glik0s" path="res://Assets/Textures/ui.svg" id="1"]
+[ext_resource type="Theme" uid="uid://c6j8wp5yug8hx" path="res://Assets/Resources/main_theme.tres" id="2"]
+[ext_resource type="Script" path="res://Scripts/HealthBar3D.gd" id="3"]
+
+[node name="HealthBar3D" type="Sprite3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 2, 0)
+visible = false
+cast_shadow = 0
+billboard = 1
+no_depth_test = true
+script = ExtResource("3")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(320, 32)
+
+[node name="Health" type="TextureProgressBar" parent="SubViewport"]
+custom_minimum_size = Vector2(320, 32)
+offset_right = 256.0
+offset_bottom = 16.0
+theme = ExtResource("2")
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 32
+stretch_margin_right = 32
+texture_under = ExtResource("1")
+texture_progress = ExtResource("1")
+tint_under = Color(1, 0.376471, 0.376471, 1)
+tint_progress = Color(0.501961, 1, 0.376471, 1)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

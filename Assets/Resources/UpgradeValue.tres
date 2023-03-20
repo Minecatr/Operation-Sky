@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/UpgradesValue.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+cost = {
+"Damage Multi": 5,
+"Extra Source": 5,
+"Material Spawnrate": 2,
+"Max Bush": 25,
+"Max Rock": 25,
+"Max Tree": 25,
+"Multi": 3,
+"Multi2": 1000,
+"PSize": 1,
+"Speed": 1
+}

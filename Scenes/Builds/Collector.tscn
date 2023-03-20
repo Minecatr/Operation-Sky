@@ -1,0 +1,139 @@
+[gd_scene load_steps=15 format=3 uid="uid://bx1dcsa0yi87e"]
+
+[ext_resource type="Material" path="res://Assets/Resources/plastic-brown.tres" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://Scenes/HealthBar3D.tscn" id="3"]
+[ext_resource type="Script" path="res://Scripts/Structure.gd" id="4"]
+[ext_resource type="Material" path="res://Assets/Resources/plastic-gray.tres" id="5"]
+[ext_resource type="Script" path="res://Scripts/Collector.gd" id="6"]
+[ext_resource type="Script" path="res://Scripts/Stats.gd" id="7"]
+[ext_resource type="Script" path="res://Scripts/Storage.gd" id="8"]
+
+[sub_resource type="BoxShape3D" id="4"]
+size = Vector3(0.375, 0.375, 2)
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(0.25, 0.25, 0.5)
+
+[sub_resource type="ViewportTexture" id="3"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Animation" id="5"]
+resource_name = "Collect"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collector/Area3D/CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collector/Area3D/CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y46nt"]
+_data = {
+"Collect": SubResource("5"),
+"RESET": SubResource("6")
+}
+
+[node name="Collector" type="CSGCombiner3D"]
+script = ExtResource("4")
+storage = true
+
+[node name="Storage" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.625)
+size = Vector3(0.5, 0.5, 1)
+material = ExtResource("1")
+script = ExtResource("8")
+
+[node name="Has" type="Node" parent="Storage"]
+script = ExtResource("7")
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 0
+}
+
+[node name="Collector" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 2.125)
+size = Vector3(0.375, 0.375, 2)
+material = ExtResource("5")
+script = ExtResource("6")
+
+[node name="Area3D" type="Area3D" parent="Collector" groups=["collector"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collector/Area3D"]
+shape = SubResource("4")
+disabled = true
+
+[node name="Stats" parent="." instance=ExtResource("2")]
+health = 3
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 10
+}
+
+[node name="HealthBar3D" parent="." instance=ExtResource("3")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -0.5, 0.625)
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.625)
+shape = SubResource("1")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(197, 180)
+
+[node name="VBoxContainer" type="GridContainer" parent="SubViewport"]
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 2
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(-2.18557e-08, -0.25, -4.37114e-08, 0, -1.09278e-08, 1, -0.5, 1.09278e-08, 1.91069e-15, 0, -0.249, 0.625)
+texture = SubResource("3")
+
+[node name="Timer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y46nt")
+}
+
+[connection signal="area_entered" from="Collector/Area3D" to="Collector" method="_on_Area_area_entered"]
+[connection signal="animation_finished" from="Timer" to="Collector" method="_on_Timer_animation_finished"]
