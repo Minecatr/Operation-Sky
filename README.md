@@ -19,7 +19,7 @@ To play Operation Sky, you will need to have the Godot engine installed on your 
 
 Once you have installed the Godot engine, follow these steps to install and run Operation Sky:
 
-1.  Download the latest release of Operation Sky from the [releases page](https://github.com/your-username/operation-sky/releases).
+1.  Download the latest release of Operation Sky from the [releases page](https://github.com/Minecatr/Operation-Sky/releases).
 2.  Extract the downloaded file to a location on your computer.
 3.  Open the Godot engine and click the "Import" button.
 4.  Navigate to the location where you extracted the Operation Sky files and select the `project.godot` file.
