@@ -88,7 +88,7 @@ roughness = 0.0
 [sub_resource type="StandardMaterial3D" id="5"]
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 2.0
+emission_energy_multiplier = 0.5
 
 [sub_resource type="BoxShape3D" id="6"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -415,6 +415,9 @@ colors = {
 "Stone": Color(0.5, 0.5, 0.5, 1),
 "Wood": Color(0.670588, 0.329412, 0.129412, 1)
 }
+
+[node name="OmniLight3D" type="OmniLight3D" parent="The Source"]
+shadow_enabled = true
 
 [node name="Structures" type="Node" parent="."]
 
