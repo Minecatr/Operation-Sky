@@ -194,14 +194,17 @@ sky = SubResource("Sky_o7dtg")
 tonemap_mode = 3
 tonemap_exposure = 2.0
 glow_enabled = true
-fog_enabled = true
 fog_sky_affect = 0.5
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
 
 [node name="World3D" type="Node3D"]
 script = ExtResource("5")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0)
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
 
 [node name="Islands" type="Node" parent="."]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d287xjbcpul3g" path="res://Scenes/Fire.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://Scenes/HealthBar3D.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bhy26nlqilrfu" path="res://Scenes/HealthBar3D.tscn" id="3"]
 [ext_resource type="Script" path="res://Scripts/Structure.gd" id="4"]
 [ext_resource type="Material" path="res://Assets/Resources/plastic-gray.tres" id="5"]
 [ext_resource type="Script" path="res://Scripts/Storage.gd" id="6"]
