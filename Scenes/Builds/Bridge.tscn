@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bu1f16lwac3up"]
 
-[ext_resource type="Material" path="res://Assets/Resources/plastic-brown.tres" id="1"]
+[ext_resource type="Material" uid="uid://bo365tav6at47" path="res://Assets/Resources/plastic-brown.tres" id="1"]
 [ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bhy26nlqilrfu" path="res://Scenes/HealthBar3D.tscn" id="3"]
 [ext_resource type="Script" path="res://Scripts/Structure.gd" id="4"]
@@ -9,6 +9,7 @@
 size = Vector3(0.5, 0.25, 1.5)
 
 [node name="Bridge" type="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000344723, 0.000139713, -0.00381649)
 use_collision = true
 script = ExtResource("4")
 

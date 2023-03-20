@@ -1,23 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://clmoigf37oek6"]
+[gd_scene load_steps=4 format=3 uid="uid://clmoigf37oek6"]
 
 [ext_resource type="Script" path="res://Scripts/TemplateStructure.gd" id="1"]
 [ext_resource type="Theme" uid="uid://c6j8wp5yug8hx" path="res://Assets/Resources/main_theme.tres" id="3"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2mvjb"]
-sky_curve = 0.09
-ground_bottom_color = Color(0.156863, 0.184314, 0.211765, 1)
-
-[sub_resource type="Sky" id="Sky_kg3lt"]
-sky_material = SubResource("ProceduralSkyMaterial_2mvjb")
-
-[sub_resource type="Environment" id="Environment_70wo6"]
-background_mode = 2
-sky = SubResource("Sky_kg3lt")
-tonemap_mode = 3
-tonemap_exposure = 2.0
-glow_enabled = true
-fog_enabled = true
-fog_sky_affect = 0.5
+[ext_resource type="Environment" uid="uid://b4u6m5c7no0cm" path="res://Assets/Resources/main_environment.tres" id="3_na4rt"]
 
 [node name="Template" type="TextureButton"]
 custom_minimum_size = Vector2(64, 64)
@@ -43,7 +28,7 @@ size = Vector2i(90, 90)
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(-0.707107, 0.408244, -0.577353, 0, 0.816501, 0.577345, 0.707107, 0.408244, -0.577353, -2.375, 2.35, -1.5)
-environment = SubResource("Environment_70wo6")
+environment = ExtResource("3_na4rt")
 projection = 1
 fov = 45.0
 size = 2.75

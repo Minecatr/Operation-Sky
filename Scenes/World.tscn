@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://br3u6t7yqctsf"]
+[gd_scene load_steps=33 format=3 uid="uid://br3u6t7yqctsf"]
 
 [ext_resource type="Material" uid="uid://lpc3bt17b1ov" path="res://grid.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://bnaewbwfhgdsq" path="res://Scenes/Player.tscn" id="2"]
@@ -8,12 +8,13 @@
 [ext_resource type="Material" path="res://Assets/Resources/plastic-sand.tres" id="6"]
 [ext_resource type="Script" path="res://Scripts/Volcano.gd" id="7"]
 [ext_resource type="Script" path="res://Scripts/Crystal.gd" id="8"]
-[ext_resource type="Material" path="res://Assets/Resources/plastic-brown.tres" id="9"]
+[ext_resource type="Material" uid="uid://bo365tav6at47" path="res://Assets/Resources/plastic-brown.tres" id="9"]
 [ext_resource type="Material" path="res://Assets/Resources/lava.tres" id="10"]
 [ext_resource type="Script" path="res://Scripts/Lava.gd" id="11"]
 [ext_resource type="Material" path="res://Assets/Resources/build-failed.tres" id="12"]
 [ext_resource type="Script" path="res://Scripts/Pyramid.gd" id="13"]
-[ext_resource type="Material" path="res://Assets/Resources/cloud.tres" id="14"]
+[ext_resource type="Material" uid="uid://demv8bk33yaie" path="res://Assets/Resources/cloud.tres" id="14"]
+[ext_resource type="Environment" uid="uid://b4u6m5c7no0cm" path="res://Assets/Resources/main_environment.tres" id="15_w8r5p"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -192,23 +193,6 @@ _data = {
 "RESET": SubResource("7"),
 "hit": SubResource("8")
 }
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_71y0y"]
-sky_curve = 0.09
-ground_bottom_color = Color(0.156863, 0.184314, 0.211765, 1)
-
-[sub_resource type="Sky" id="Sky_o7dtg"]
-sky_material = SubResource("ProceduralSkyMaterial_71y0y")
-
-[sub_resource type="Environment" id="Environment_eu51l"]
-background_mode = 2
-sky = SubResource("Sky_o7dtg")
-tonemap_mode = 3
-tonemap_exposure = 2.0
-glow_enabled = true
-fog_sky_affect = 0.5
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.005
 
 [node name="World3D" type="Node3D"]
 script = ExtResource("5")
@@ -444,7 +428,7 @@ autostart = true
 [node name="Extra Sources" type="Node" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_eu51l")
+environment = ExtResource("15_w8r5p")
 
 [connection signal="area_entered" from="Islands/Desert/ShovelCrystal" to="Islands/Desert/ShovelCrystal" method="_on_Crystal_area_entered"]
 [connection signal="area_entered" from="Islands/Desert/Area3D" to="Islands/Desert/Area3D" method="_on_Area_area_entered"]

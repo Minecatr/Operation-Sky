@@ -19,6 +19,9 @@ var maximumresource = {
 }
 
 func _ready():
+	for upgrade in upgrades.value:
+		upgrades.value[upgrade] = 0
+		upgrades.cost[upgrade] = original.cost[upgrade]
 	randomize()
 	$Islands/Desert.position = Vector3(randf_range(-16,16)*4,-0.25,randf_range(-16,16)*4)
 	$Islands/Volcano.position = Vector3(randf_range(-24,24)*4,-0.5,randf_range(-24,24)*4)

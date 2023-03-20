@@ -10,4 +10,5 @@ extends Resource
 	"Material Spawnrate" : 2,
 	"Damage Multi" : 5,
 	"Multi2" : 1000,
+	"Rebirth" : 1000000,
 }

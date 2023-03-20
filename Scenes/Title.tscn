@@ -1,9 +1,10 @@
-[gd_scene load_steps=39 format=3 uid="uid://00pdaihedlyp"]
+[gd_scene load_steps=37 format=3 uid="uid://00pdaihedlyp"]
 
 [ext_resource type="Script" path="res://Scripts/The Source.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dlchvyjjqj5ud" path="res://Scenes/Builds/Drill.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtfhvh1qrhwiv" path="res://Scenes/Builds/Dropper.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="4"]
+[ext_resource type="Environment" uid="uid://b4u6m5c7no0cm" path="res://Assets/Resources/main_environment.tres" id="4_vghsi"]
 [ext_resource type="Material" uid="uid://lpc3bt17b1ov" path="res://grid.tres" id="5"]
 [ext_resource type="Script" path="res://Scripts/Spinner.gd" id="6"]
 [ext_resource type="Script" path="res://Scripts/Pyramid.gd" id="7"]
@@ -11,27 +12,11 @@
 [ext_resource type="Script" path="res://Scripts/Volcano.gd" id="9"]
 [ext_resource type="Script" path="res://Scripts/Lava.gd" id="10"]
 [ext_resource type="Material" path="res://Assets/Resources/lava.tres" id="11"]
-[ext_resource type="Material" path="res://Assets/Resources/plastic-brown.tres" id="12"]
+[ext_resource type="Material" uid="uid://bo365tav6at47" path="res://Assets/Resources/plastic-brown.tres" id="12"]
 [ext_resource type="Material" path="res://Assets/Resources/plastic-sand.tres" id="13"]
 [ext_resource type="FontFile" uid="uid://dkg8f55oxda1r" path="res://Assets/Font/FuturaPTCondMediumOblique.otf" id="14"]
 [ext_resource type="Theme" uid="uid://bapa1l6qytmcb" path="res://Assets/Resources/Swift.tres" id="15"]
 [ext_resource type="Script" path="res://Scripts/Title.gd" id="16"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2mvjb"]
-sky_curve = 0.09
-ground_bottom_color = Color(0.156863, 0.184314, 0.211765, 1)
-
-[sub_resource type="Sky" id="Sky_kg3lt"]
-sky_material = SubResource("ProceduralSkyMaterial_2mvjb")
-
-[sub_resource type="Environment" id="12"]
-background_mode = 2
-sky = SubResource("Sky_kg3lt")
-tonemap_mode = 3
-tonemap_exposure = 2.0
-glow_enabled = true
-fog_enabled = true
-fog_sky_affect = 0.5
 
 [sub_resource type="StandardMaterial3D" id="13"]
 emission_enabled = true
@@ -336,7 +321,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("12")
+environment = ExtResource("4_vghsi")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0)

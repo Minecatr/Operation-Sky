@@ -26,4 +26,3 @@ func take_damage(amount, player):
 	if health <= 0:
 		player.collect_stat(stats)
 		queue_free()
-

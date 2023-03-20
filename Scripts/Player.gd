@@ -9,19 +9,14 @@ extends CharacterBody3D
 # var _velocity := Vector3.ZERO
 var _snap_vector := Vector3.DOWN
 var jumping := false
-var cachepos := position
 
 @onready var _spring_arm: SpringArm3D = $SpringArm3D
 @onready var _model: Node3D = $Character
-
-####################################################
 
 const SAVE_PATH = "user://save_config_file.ini"
 
 signal health_updated(health)
 signal killed()
-
-# const Big = preload("res://Scripts/Big.gd")
 
 @export var max_health: int = 100
 
@@ -42,6 +37,7 @@ signal killed()
 @onready var settings = $CanvasLayer/UI/TabContainer/Settings/VBoxContainer
 @onready var stats = $Stats.stats
 @onready var statcolors = $Stats.colors
+@onready var hammerui = $CanvasLayer/UI/Hammer
 # onready var health = $Stats.health
 @onready var healthbar = $CanvasLayer/UI/Quickbar/HBoxContainer/Health
 @onready var nametag = $Nametag
@@ -80,6 +76,7 @@ var upgrades = load("res://Assets/Resources/Upgrades.tres")
 var furnaceRecipes = load("res://Assets/Resources/Furnace.tres")
 
 var selectedstructure = ""
+var hammer_selected_structure = ""
 var structures = [
 	"Bridge",
 	"Wall",
@@ -121,7 +118,7 @@ func _unhandled_input(_event):
 			animation_player.play("idle")
 			animation_player.play("swing")
 			$Hit/Sword.disabled = true
-		elif equippeditem == "":
+		elif equippeditem == "" or "Hammer":
 			var mouse_pos = get_viewport().get_mouse_position()
 			var ray_length = 100
 			var from = _spring_arm.get_node("Camera3D").project_ray_origin(mouse_pos)
@@ -133,24 +130,32 @@ func _unhandled_input(_event):
 			ray_query.collide_with_bodies = false
 			ray_query.collide_with_areas = true
 			var raycast_result = space.intersect_ray(ray_query)
-			print(raycast_result)
 			if raycast_result and raycast_result["position"].distance_to(position) < 5:
-				if raycast_result["collider"].is_in_group("source"):
-					raycast_result["collider"].take_damage(1,self)
-				if raycast_result["collider"].is_in_group("hurtbox_structure") and raycast_result["collider"].get_parent().name == "Furnace":
-					$CanvasLayer/UI/MiddleTabs.visible = true
-				if raycast_result["collider"].is_in_group("storage"):
-					collect_stat(raycast_result["collider"].get_parent().get_node("Storage").stats)
+				if equippeditem == "":
+					if raycast_result["collider"].is_in_group("source"):
+						raycast_result["collider"].take_damage(1,self)
+					if raycast_result["collider"].is_in_group("hurtbox_structure") and raycast_result["collider"].get_parent().name == "Furnace":
+						$CanvasLayer/UI/MiddleTabs.visible = true
+					if raycast_result["collider"].is_in_group("storage"):
+						collect_stat(raycast_result["collider"].get_parent().get_node("Storage").stats)
+				elif equippeditem == "Hammer":
+					if raycast_result["collider"].is_in_group("hurtbox_structure") and !hammer_selected_structure:
+						hammer_select(raycast_result["collider"])
 	if Input.is_action_just_released("swing"):
 		pass
 func get_input():
 	if Input.is_action_just_pressed("ui_cancel"):
 		$CanvasLayer/UI/MiddleTabs.visible = false
+		hammer_deselect()
 	if Input.is_action_just_pressed("rotate"):
 		$BuildOutline.rotation_degrees.x += 90
 	for n in range(1,9): # Hotbar
 		if Input.is_action_just_pressed(str(n)) and n <= $CanvasLayer/UI/HBoxContainer2.get_child_count():
 			$CanvasLayer/UI/HBoxContainer2.get_child(n-1).press()
+	if Input.is_action_just_pressed("salvage"):
+		_on_salvage_pressed()
+	if Input.is_action_just_pressed("upgrade"):
+		_on_upgrade_pressed()
 	if Input.is_action_pressed("kill"): # Self harm testing only
 		damage(5)
 	if Input.is_action_pressed("cheat"): # cheating testing only
@@ -342,9 +347,6 @@ func _on_Hit_area_entered(area):
 					onfireclone.player = self
 					area.add_child(onfireclone)
 					area.onfire = true
-	elif area.is_in_group("hurtbox_structure") and equippeditem == "Sword":
-		if area.get_parent().health > 0:
-			area.get_parent().take_damage(1+upgrades.value["Damage Multi"],self)
 	elif area.is_in_group("storage"):
 		collect_stat(area.get_parent().get_node("Storage").stats)
 
@@ -385,7 +387,7 @@ func kill():
 	jumpsword = false
 	$Hit/Sword/Jump.visible = false
 	gravity = 50
-	position = cachepos
+	position = Vector3(0,1.5,0)
 	_set_health(100)
 	
 func _set_health(value):
@@ -429,6 +431,7 @@ func Equip(item):
 	$Hit/Sword/Food.visible = item == "Food"
 	$CanvasLayer/UI/SideTabs.visible = item == "Build"
 	$CanvasLayer/UI/HBoxContainer.visible = item == "Build"
+	hammer_deselect()
 	if item == "Sword":
 		if speedsword == true:
 			speed = 10.0
@@ -475,7 +478,7 @@ func _on_master_volume_value_changed(value):
 func _on_Failtimer_timeout():
 	$BuildOutline.material_override = load("res://Assets/Resources/build.tres")
 
-func _on_Collection_area_entered(area):
+func _on_Collection_area_entered(area): #  :(
 	if area.is_in_group("item"):
 		area.get_parent().collect(self)
 
@@ -555,3 +558,30 @@ func _on_world_text_submitted(new_text):
 
 func _on_quit_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Title.tscn")
+
+#Hammer
+
+func hammer_select(structure):
+	structure.get_parent().material_overlay = load("res://Assets/Resources/outline.tres")
+	hammer_selected_structure = structure
+	hammerui.visible = true
+
+func hammer_deselect():
+	if hammer_selected_structure:
+		hammer_selected_structure.get_parent().material_overlay = null
+	hammer_selected_structure = null
+	hammerui.visible = false
+
+func _on_salvage_pressed():
+	if hammer_selected_structure:
+		hammer_selected_structure.get_parent().take_damage(hammer_selected_structure.get_parent().health,self)
+		hammer_deselect()
+
+func _on_upgrade_pressed():
+	if hammer_selected_structure:
+		hammer_deselect()
+
+func _on_cancel_pressed():
+	if hammer_selected_structure:
+		hammer_deselect()
+
