@@ -12,7 +12,19 @@ var songs = [
 	"confiles-a.mp3",
 	"fluffy-clouds.ogg",
 	"molecule.ogg",
-	"the-researcher.mp3"
+	"the-researcher.mp3",
+	"parachute.mp3",
+	"tension-factor.mp3",
+	"take-it-easy.mp3",
+	"on-the-scene.mp3",
+	"creative-challenge.mp3",
+	"martians.mp3",
+	"automation-c.mp3",
+	"automation-b.mp3",
+	"mass-progression.mp3",
+	"creative-people.mp3",
+	"gunner-c.mp3",
+	"melobreath.mp3",
 ]
 
 func changesong():

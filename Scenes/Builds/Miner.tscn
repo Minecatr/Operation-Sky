@@ -1,0 +1,99 @@
+[gd_scene load_steps=13 format=3 uid="uid://1c7d6raixqx5"]
+
+[ext_resource type="Script" path="res://Scripts/Structure.gd" id="1_matlk"]
+[ext_resource type="Material" path="res://Assets/Resources/plastic-blue.tres" id="2_ky3ey"]
+[ext_resource type="PackedScene" path="res://Scenes/Stats.tscn" id="3_mgbut"]
+[ext_resource type="PackedScene" uid="uid://bhy26nlqilrfu" path="res://Scenes/HealthBar3D.tscn" id="4_ja8oq"]
+[ext_resource type="Material" path="res://Assets/Resources/plastic-pink.tres" id="6_f2c17"]
+[ext_resource type="Script" path="res://Scripts/Miner.gd" id="7_6b4qy"]
+[ext_resource type="Script" path="res://Scripts/Storage.gd" id="7_77jrl"]
+[ext_resource type="Script" path="res://Scripts/Stats.gd" id="8_rhkpq"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(0.5, 0.75, 0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i0t8o"]
+radius = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_2brvx"]
+lightmap_size_hint = Vector2i(9, 5)
+material = ExtResource("6_f2c17")
+radius = 0.25
+height = 0.5
+radial_segments = 8
+rings = 4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_v8dic"]
+
+[node name="Miner" type="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000344723, 0.000139713, -0.00381649)
+script = ExtResource("1_matlk")
+storage = true
+
+[node name="Storage" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.375455, 0.875)
+size = Vector3(0.5, 0.75, 0.5)
+material = ExtResource("2_ky3ey")
+script = ExtResource("7_77jrl")
+
+[node name="Has" type="Node" parent="Storage"]
+script = ExtResource("8_rhkpq")
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 0,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 0
+}
+
+[node name="Stats" parent="." instance=ExtResource("3_mgbut")]
+health = 1
+stats = {
+"Cactus": 0,
+"Coal": 0,
+"Dirt": 0,
+"Food": 20,
+"Glass": 0,
+"Gold": 0,
+"Points": 0,
+"Sand": 0,
+"Stone": 0,
+"Wood": 0
+}
+
+[node name="HealthBar3D" parent="." instance=ExtResource("4_ja8oq")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -0.875, 0.875)
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.375, 0.875)
+shape = SubResource("1")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.875)
+script = ExtResource("7_6b4qy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("SphereShape3D_i0t8o")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("SphereMesh_2brvx")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="CharacterBody3D/Area3D"]
+shape = SubResource("SphereShape3D_v8dic")
+
+[node name="Timer" type="Timer" parent="CharacterBody3D"]
+wait_time = 5.0
+autostart = true
+
+[connection signal="area_entered" from="CharacterBody3D/Area3D" to="CharacterBody3D" method="_on_area_3d_area_entered"]
+[connection signal="timeout" from="CharacterBody3D/Timer" to="CharacterBody3D" method="_on_timer_timeout"]
