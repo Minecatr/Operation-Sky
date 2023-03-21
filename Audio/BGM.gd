@@ -8,7 +8,11 @@ var songs = [
 	"sound-machine-c.ogg",
 	"the-block.ogg",
 	"unguarded.ogg",
-	"cytochrome"
+	"cytochrome.ogg",
+	"confiles-a.mp3",
+	"fluffy-clouds.ogg",
+	"molecule.ogg",
+	"the-researcher.mp3"
 ]
 
 func changesong():

@@ -77,6 +77,7 @@ var furnaceRecipes = load("res://Assets/Resources/Furnace.tres")
 
 var selectedstructure = ""
 var hammer_selected_structure = ""
+var placetimeout = false
 var structures = [
 	"Bridge",
 	"Wall",
@@ -92,7 +93,7 @@ var structures = [
 ]
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("swing"):
-		if equippeditem == "Build" and selectedstructure != "": # make sure everything is ready to place a structure
+		if equippeditem == "Build" and selectedstructure != "" and placetimeout == false: # make sure everything is ready to place a structure
 				var structure = load("res://Scenes/Builds/"+selectedstructure+".tscn").instantiate()
 				var canplace = true
 				for stat in structure.get_node("Stats").stats.keys(): # see if player has enough resources
@@ -109,6 +110,8 @@ func _unhandled_input(_event):
 					structure.rotation = rotation + $BuildOutline.rotation
 					structuresfolder.add_child(structure)
 					structure.place()
+					placetimeout = true
+					$"Block Debounce Time".start()
 		if equippeditem == "Food" and health < max_health and stats["Food"] > 0:
 			stats["Food"] -= 1
 			_set_health(health+25)
@@ -376,15 +379,15 @@ func damage(amount):
 		pass#effects_animation.play("damage")
 		pass#effects_animation.queue("flash")
 func kill():
-	$Hit/Sword.shape.size = Vector3(0.05,0.5,0.1)
-	$Hit/Sword/Model.scale.x = 0.25
-	$Hit/Sword/Model.set_surface_override_material(0, load("res://Assets/Resources/chrome.tres"))
+	$Hit/Sword.shape.size = Vector3(1,0.75,1)
+	$Character/Armature/Skeleton3D/Model.scale.x = 31.25
+	$Character/Armature/Skeleton3D/Model.set_surface_override_material(0, load("res://Assets/Resources/chrome.tres"))
 	firesword = false
 	speedsword = false
-	$Hit/Sword/Speed.visible = false
+	$Character/Armature/Skeleton3D/Model/Speed.visible = false
 	speed = 5.0
 	jumpsword = false
-	$Hit/Sword/Jump.visible = false
+	$Character/Armature/Skeleton3D/Model/Jump.visible = false
 	gravity = 50
 	position = Vector3(0,1.5,0)
 	_set_health(100)
@@ -426,21 +429,21 @@ func DeleteStructureOutline():
 		child.queue_free()
 func Equip(item):
 	equippeditem = item
-	$Hit/Sword/Model.visible = item == "Sword"
-	$Hit/Sword/Food.visible = item == "Food"
+	$Character/Armature/Skeleton3D/Model.visible = item == "Sword"
+	$Character/Armature/Skeleton3D/Food.visible = item == "Food"
 	$CanvasLayer/UI/SideTabs.visible = item == "Build"
 	$CanvasLayer/UI/HBoxContainer.visible = item == "Build"
 	hammer_deselect()
 	if item == "Sword":
 		if speedsword == true:
 			speed = 10.0
-			$Hit/Sword/Speed.visible = true
+			$Character/Armature/Skeleton3D/Model/Speed.visible = true
 		if jumpsword == true:
 			gravity = 15
-			$Hit/Sword/Jump.visible = true
+			$Character/Armature/Skeleton3D/Model/Jump.visible = true
 	else:
-		$Hit/Sword/Speed.visible = false
-		$Hit/Sword/Jump.visible = false
+		$Character/Armature/Skeleton3D/Model/Speed.visible = false
+		$Character/Armature/Skeleton3D/Model/Jump.visible = false
 		speed = 5.0
 		gravity = 50
 	if item == "Build":
@@ -482,21 +485,21 @@ func _on_Collection_area_entered(area): #  :(
 		area.get_parent().collect(self)
 
 func activateshovelsword():
-	$Hit/Sword.shape.size = Vector3(0.05,1,0.15)
-	$Hit/Sword/Model.scale.x = 0.5
+	$Hit/Sword.shape.size = Vector3(1,1.5,1)
+	$Character/Armature/Skeleton3D/Model.scale.x = 62.5
 func activatefiresword():
-	$Hit/Sword/Model.set_surface_override_material(0, load("res://Assets/Resources/firesteel.tres"))
+	$Character/Armature/Skeleton3D/Model.set_surface_override_material(0, load("res://Assets/Resources/firesteel.tres"))
 	firesword = true
 func activatespeedsword():
 	speedsword = true
 	if equippeditem == "Sword":
 		speed = 10.0
-		$Hit/Sword/Speed.visible = true
+		$Character/Armature/Skeleton3D/Model/Speed.visible = true
 func activatejumpsword():
 	jumpsword = true
 	if equippeditem == "Sword":
 		gravity = 15
-		$Hit/Sword/Jump.visible = true
+		$Character/Armature/Skeleton3D/Model/Jump.visible = true
 
 func _on_middle_tabs_tab_changed(tab):
 	if tab == 1:
@@ -584,3 +587,5 @@ func _on_cancel_pressed():
 	if hammer_selected_structure:
 		hammer_deselect()
 
+func _on_block_debounce_time_timeout():
+	placetimeout = false
