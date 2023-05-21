@@ -12,6 +12,8 @@ Operation Sky is an open-source game made in the Godot engine. In the game, you 
 
 ## Gallery
 ![Working Prototype of Horses](https://ninja.dog/LSrCep.png)
+![Working Miners](https://media.discordapp.net/attachments/951217787404161116/1087887591287816292/image.png?width=747&height=671)
+![Dropper Use case](https://media.discordapp.net/attachments/951216558879961138/1109229446159941823/image.png?width=806&height=671)
 
 ## Installation
 
