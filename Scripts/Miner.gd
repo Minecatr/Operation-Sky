@@ -35,7 +35,7 @@ func _on_timer_timeout():
 						target = resource.global_position
 
 func _physics_process(_ddelta):
-	if $"..".placed and target:
+	if $"..".placed and target and get_parent().global_position != target:
 		look_at(target)
 		velocity = -global_transform.basis.z
 		#velocity = Vector3(0,1,0).rotated(Vector3.UP, rotation.y)

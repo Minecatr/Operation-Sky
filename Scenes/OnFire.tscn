@@ -55,12 +55,11 @@ draw_pass_1 = SubResource("7")
 script = ExtResource("1")
 
 [node name="Time" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 4.0
 one_shot = true
 autostart = true
 
 [node name="Looper" type="Timer" parent="."]
-wait_time = 2.0
 autostart = true
 
 [connection signal="timeout" from="Time" to="." method="_on_Time_timeout"]

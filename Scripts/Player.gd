@@ -1,14 +1,12 @@
 extends CharacterBody3D
 
-@export var speed := 5.0
-@export var jump_strength := 15.0
-@export var gravity := 50.0
-@export var TRANSITION_SPEED_AIR = 1.5
-@export var TRANSITION_SPEED_GROUND = 15.0
+var speed := 5.0
 
-# var _velocity := Vector3.ZERO
-var _snap_vector := Vector3.DOWN
-var jumping := false
+const JUMP_VELOCITY = 15#4.5
+const ACCELERATION = 15
+const AIR_RESISTANCE = 2
+
+var gravity = 50
 
 @onready var _spring_arm: SpringArm3D = $SpringArm3D
 @onready var _model: Node3D = $Character
@@ -185,20 +183,7 @@ func Drop(item):
 		itemtemplate.apply_impulse(Vector3.ZERO, Vector3(0,2,2).rotated(Vector3.UP, rotation.y))
 		get_parent().get_node("Objects").add_child(itemtemplate)
 		updstats()
-func animate(type,player): # all animations
-	var new_anim = anim
-	new_anim = type
-	if new_anim != anim:
-		anim = new_anim
-		if player == 0:
-			animation_player.play(anim)
-		elif player == 1:
-			animation_player.play(anim)
-			$Hit/Sword.disabled = true
-		elif player == 2:
-			animation_player.play_backwards(anim)
-			$Hit/Sword.disabled = true
-	anim = ""
+
 func _process(_delta: float) -> void:
 	_spring_arm.position = position + Vector3(0,1,0) # first person and camera
 	if _spring_arm.spring_length == 0:
@@ -213,58 +198,21 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if position.y < -100:
 		kill()
-	var move_direction := Vector3.ZERO
-	move_direction.x = Input.get_action_raw_strength("right") - Input.get_action_raw_strength("left")
-	move_direction.z = Input.get_action_raw_strength("backward") - Input.get_action_raw_strength("forward")
-	if animstop:
-		pass
-#	elif _velocity.y > 0:
-#		animate("jump",1)
-#	elif is_on_floor() and _snap_vector == Vector3.ZERO:
-#		animate("land",1)
-#	elif not is_on_floor() and _velocity.y < -7:
-#		print(_velocity.y)
-#		animate("fall",1)
-	elif move_direction.x > 0:
-		animate("right_strafe",1)
-	elif move_direction.x < 0:
-		animate("left_strafe",1)
-	elif move_direction.z > 0:
-		animate("walk",2)
-	elif move_direction.z < 0:
-		animate("walk",1)
+	
+	if !is_on_floor():
+		velocity.y -= gravity * delta
+	if Input.is_action_pressed("jump") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+	var input_dir = Input.get_vector("left", "right", "forward", "backward")
+	var direction = (transform.basis * Vector3(-input_dir.x, 0, -input_dir.y)).normalized()
+	#direction = direction.rotated(Vector3.UP, $SpringArm3D.rotation.y).normalized()
+	if is_on_floor() or input_dir:
+		velocity.x = lerp(velocity.x, direction.x * speed, delta * ACCELERATION)
+		velocity.z = lerp(velocity.z, direction.z * speed, delta * ACCELERATION)
 	else:
-		animate("idle",1)
-	move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+		velocity.x = lerp(velocity.x, direction.x, delta * AIR_RESISTANCE)
+		velocity.z = lerp(velocity.z, direction.z, delta * AIR_RESISTANCE)
 	
-	var transition_speed = TRANSITION_SPEED_GROUND if is_on_floor() else TRANSITION_SPEED_AIR
-	if move_direction:
-		velocity.x = velocity.x * (1 - delta * transition_speed) + ((move_direction.x * speed) * (delta * transition_speed))
-		velocity.z = velocity.z * (1 - delta * transition_speed) + ((move_direction.z * speed) * (delta * transition_speed))
-	else:
-		velocity.x = velocity.x * (1 - delta * transition_speed) + ((move_direction.x * speed) * (delta * transition_speed))
-		velocity.z = velocity.z * (1 - delta * transition_speed) + ((move_direction.z * speed) * (delta * transition_speed))
-	
-	#velocity.x = move_direction.x * speed
-	#velocity.z = move_direction.z * speed
-	velocity.y -= gravity * delta
-	
-	if Input.is_action_just_pressed("jump"):
-		jumping = true
-	elif Input.is_action_just_released("jump"):
-		jumping = false
-	
-	var just_landed := is_on_floor() and _snap_vector == Vector3.ZERO
-	var is_jumping := is_on_floor() and jumping 
-	
-	if is_jumping:
-		velocity.y = jump_strength
-		_snap_vector = Vector3.ZERO
-	elif just_landed:
-		_snap_vector = Vector3.DOWN
-	#if _velocity.length() > 0.2 and _velocity.z != 0 or _velocity.x != 0:
-		#var look_direction = Vector2(_velocity.z, _velocity.x)
-		#rotation.y = look_direction.angle()
 	move_and_slide()
 	rotation_degrees.y = $SpringArm3D.rotation_degrees.y + 180
 	get_input()
